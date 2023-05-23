@@ -1,6 +1,6 @@
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=thread
 RM = rm -rf
 RED	=	$(shell tput -Txterm setaf 1)
 WHITE	=	$(shell tput -Txterm setaf 7)
@@ -42,7 +42,7 @@ $(NAME): $(OBJ)
 	@$(eval NUM := $(shell echo $$(($(NUM) + 1))))
 	@$(eval RES := $(shell echo $$(($(NUM) * 100 / $(NUM_FILES)))))
 	@echo "Compilation progress:$(GREEN) $(RES)% $(WHITE)"
-	@sleep 0.7
+# @sleep 0.7
 
 clean:
 	@clear

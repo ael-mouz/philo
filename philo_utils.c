@@ -6,7 +6,7 @@
 /*   By: ael-mouz <ael-mouz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:37:01 by ael-mouz          #+#    #+#             */
-/*   Updated: 2023/05/16 19:01:39 by ael-mouz         ###   ########.fr       */
+/*   Updated: 2023/05/23 20:53:24 by ael-mouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,8 @@ t_node	*ft_lst_new(t_info *_info, int index)
 	new_node->thread = NULL;
 	// new_node->mutex = NULL;
 	new_node->index = index;
-	new_node->time_to_die = _info->time_to_die;
-	new_node->time_to_eat = _info->time_to_eat;
-	new_node->time_to_sleep = _info->time_to_sleep;
+	new_node->last_time_eat = get_time();
+	new_node->_info = _info;
 	new_node->next = NULL;
 	return (new_node);
 }
