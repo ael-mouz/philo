@@ -1,6 +1,7 @@
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread 
+ARGS := 10 500 100 100 3
 RM = rm -rf
 RED	=	$(shell tput -Txterm setaf 1)
 WHITE	=	$(shell tput -Txterm setaf 7)
@@ -17,9 +18,10 @@ BANER = "\n" \
 		"		made by $(YELLOW) ael-mouz $(WHITE)\n" \
 
 SRC = philo.c \
-	philo_utils.c
+	philo_utils.c \
+	philo_utils_.c \
 
-OBJ = ${SRC:.c=.o}
+OBJ = $(SRC:.c=.o)
 
 HEADER = philo.h
 
@@ -33,8 +35,13 @@ $(NAME): $(OBJ)
 	@clear
 	@echo $(BANER)
 	@$(CC) $(CFLAGS) $(OBJ) -o $@
-	@echo "Generated executable : { $(BLUE) $@ $(WHITE) }\n"
-	@echo "Usage : $(GREEN)./$(NAME) $(WHITE) number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat] "
+	@echo "Generated executable : ( $(BLUE) $@ $(WHITE) )\n"
+	@echo "Usage : $(GREEN)./$(NAME) $(WHITE) \n"\
+		  "	number_of_philosophers \n"\
+		  "	time_to_die \n"\
+		  "	time_to_eat \n"\
+		  "	time_to_sleep \n"\
+		  "	[number_of_times_each_philosopher_must_eat] \n"
 
 %.o: %.c $(HEADER)
 	@clear
@@ -42,7 +49,7 @@ $(NAME): $(OBJ)
 	@$(eval NUM := $(shell echo $$(($(NUM) + 1))))
 	@$(eval RES := $(shell echo $$(($(NUM) * 100 / $(NUM_FILES)))))
 	@echo "Compilation progress:$(GREEN) $(RES)% $(WHITE)"
-# @sleep 0.7
+	@sleep 0.3
 
 clean:
 	@clear
@@ -54,9 +61,12 @@ clean:
 
 fclean: clean
 	@echo "Cleaning up executable file:"
-	@echo "$(RED)	- ${NAME}$(WHITE)";
-	@${RM} ${NAME}
+	@echo "$(RED)	- $(NAME)$(WHITE)";
+	@$(RM) $(NAME)
 
 re : fclean all
+
+ch :
+	@./philo $(ARGS) | grep "is eating" | awk '{print "[ " $$5 " ]"}' | sort -k2 -n| uniq -c 
 
 .PHONY : all clean fclean re
