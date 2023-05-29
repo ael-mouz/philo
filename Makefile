@@ -1,7 +1,7 @@
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread 
-ARGS := 10 500 100 100 3
+CFLAGS = -Wall -Wextra -Werror -g -pthread -fsanitize=thread 
+ARGS := 4 100 100 100 9
 RM = rm -rf
 RED	=	$(shell tput -Txterm setaf 1)
 WHITE	=	$(shell tput -Txterm setaf 7)

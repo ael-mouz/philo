@@ -6,7 +6,7 @@
 /*   By: ael-mouz <ael-mouz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 19:11:00 by ael-mouz          #+#    #+#             */
-/*   Updated: 2023/05/29 20:38:11 by ael-mouz         ###   ########.fr       */
+/*   Updated: 2023/05/29 22:16:49 by ael-mouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void smart_usleep(int timeto)
 	
 	time = get_time();
 	while(get_time() - time < timeto)
-		usleep(1);
+		usleep(300);
 }
 
 void	print_linked_list(t_node *head,int num)

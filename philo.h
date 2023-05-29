@@ -6,7 +6,7 @@
 /*   By: ael-mouz <ael-mouz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:08:55 by ael-mouz          #+#    #+#             */
-/*   Updated: 2023/05/29 21:49:46 by ael-mouz         ###   ########.fr       */
+/*   Updated: 2023/05/29 22:35:30 by ael-mouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ typedef struct s_node
 	pthread_t		thread;
 	pthread_mutex_t	mutex;
 	pthread_mutex_t	mutex_two;
-	pthread_mutex_t	mutex_tree;
-	// pthread_mutex_t	mutex_four;
 	struct s_info	*_info;
 	struct s_node	*next;
 }					t_node;

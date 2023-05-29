@@ -6,7 +6,7 @@
 /*   By: ael-mouz <ael-mouz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:37:01 by ael-mouz          #+#    #+#             */
-/*   Updated: 2023/05/29 20:32:30 by ael-mouz         ###   ########.fr       */
+/*   Updated: 2023/05/29 22:39:57 by ael-mouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ t_info	*feild_info(int argc, char **argv)
 
 	_info = (t_info *)malloc(sizeof(t_info) * 1);
 	_info->number_of_philosophers = atoi(argv[1]);
+	/**********************atoiiiii  iiiiiiiiiiii */
 	_info->time_to_die = atoi(argv[2]);
 	_info->time_to_eat = atoi(argv[3]);
 	_info->time_to_sleep = atoi(argv[4]);
