@@ -6,7 +6,7 @@
 /*   By: ael-mouz <ael-mouz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:07:57 by ael-mouz          #+#    #+#             */
-/*   Updated: 2023/05/29 22:40:10 by ael-mouz         ###   ########.fr       */
+/*   Updated: 2023/05/31 14:02:00 by ael-mouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,12 @@ void	*ft_routine(void *arg)
 	{
 		pthread_mutex_lock(&philo->mutex);
 		printf("[ %9d ] PHILO %d has taken a fork\n",get_time() - philo->_info->start ,philo->index);
+		// if(philo->_info->number_of_philosophers > 1)
 		pthread_mutex_lock(&philo->next->mutex);
 		printf("[ %9d ] PHILO %d has taken a fork\n",get_time() - philo->_info->start,philo->index);
 		
 		pthread_mutex_lock(&philo->mutex_two);
-		philo->last_time_eat = get_time()- philo->_info->start;
+		philo->last_time_eat = get_time() - philo->_info->start;
 		pthread_mutex_unlock(&philo->mutex_two);
 		
 		pthread_mutex_lock(&philo->mutex_two);

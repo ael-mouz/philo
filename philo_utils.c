@@ -6,7 +6,7 @@
 /*   By: ael-mouz <ael-mouz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:37:01 by ael-mouz          #+#    #+#             */
-/*   Updated: 2023/05/29 22:39:57 by ael-mouz         ###   ########.fr       */
+/*   Updated: 2023/05/31 14:03:39 by ael-mouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_node	*ft_lst_new(t_info *_info, int index)
 
 	new_node = malloc(sizeof(t_node));
 	new_node->index = index;
-	new_node->last_time_eat = get_time();
+	new_node->last_time_eat = 0;
 	new_node->number_of_eat = 0;
 	new_node->_info = _info;
 	new_node->next = NULL;
