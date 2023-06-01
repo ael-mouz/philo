@@ -6,7 +6,7 @@
 /*   By: ael-mouz <ael-mouz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:37:01 by ael-mouz          #+#    #+#             */
-/*   Updated: 2023/05/31 14:03:39 by ael-mouz         ###   ########.fr       */
+/*   Updated: 2023/06/01 22:24:24 by ael-mouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,31 @@ void	ft_lst_add_back(t_node **head, t_node *new)
 	}
 }
 
+int	ft_atoi(char *str)
+{
+	int	i;
+	int	sign;
+	int	result;
+
+	i = 0;
+	result = 0;
+	sign = 1;
+	while (str[i] && (str[i] == '\n' || str[i] == '\t' || str[i] == ' '
+			|| str[i] == '\f' || str[i] == '\r' || str[i] == '\v'))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i++] == '-')
+			sign = -1;
+	}
+	while (str[i] && str[i] >= '0' && str[i] <= '9')
+	{
+		result *= 10;
+		result += str[i++] - '0';
+	}
+	return (result * sign);
+}
+
 t_node	*ft_creat_philosopher_list(t_info *_info)
 {
 	t_node	*philo;
@@ -52,16 +77,8 @@ t_node	*ft_creat_philosopher_list(t_info *_info)
 	i = 1;
 	while (i <= _info->number_of_philosophers)
 		ft_lst_add_back(&philo, ft_lst_new(_info, i++));
-	ft_lst_add_back(&philo,philo);
-	print_linked_list(philo,_info->number_of_philosophers);
-	return(philo);
-}
-
-int	ft_list_size(t_node *list)
-{
-	if (!list)
-		return (0);
-	return (1 + ft_list_size(list->next));
+	ft_lst_add_back(&philo, philo);
+	return (philo);
 }
 
 t_info	*feild_info(int argc, char **argv)
@@ -69,15 +86,14 @@ t_info	*feild_info(int argc, char **argv)
 	t_info	*_info;
 
 	_info = (t_info *)malloc(sizeof(t_info) * 1);
-	_info->number_of_philosophers = atoi(argv[1]);
-	/**********************atoiiiii  iiiiiiiiiiii */
-	_info->time_to_die = atoi(argv[2]);
-	_info->time_to_eat = atoi(argv[3]);
-	_info->time_to_sleep = atoi(argv[4]);
+	_info->number_of_philosophers = ft_atoi(argv[1]);
+	_info->time_to_die = ft_atoi(argv[2]);
+	_info->time_to_eat = ft_atoi(argv[3]);
+	_info->time_to_sleep = ft_atoi(argv[4]);
 	_info->start = get_time();
 	if (argc == 6)
 	{
-		_info->number_of_eat = atoi(argv[5]);
+		_info->number_of_eat = ft_atoi(argv[5]);
 		_info->optional_argument = 1;
 	}
 	else

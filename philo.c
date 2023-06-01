@@ -6,159 +6,116 @@
 /*   By: ael-mouz <ael-mouz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:07:57 by ael-mouz          #+#    #+#             */
-/*   Updated: 2023/05/31 14:02:00 by ael-mouz         ###   ########.fr       */
+/*   Updated: 2023/06/01 22:38:35 by ael-mouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	ft_routine_(t_node	*philo, int x)
+{
+	int	time;
+
+	time = 0;
+	pthread_mutex_lock(&philo->mutex_two);
+	time = get_time() - philo->_info->start;
+	if (x == 1)
+		philo->last_time_eat = time;
+	else if (x == 2)
+	{
+		if (philo->_info->optional_argument)
+			philo->number_of_eat++;
+	}
+	else if (x == 3)
+		printf("[ %9d ] PHILO  %3d  is eating\n", time, philo->index);
+	else if (x == 4)
+		printf("[ %9d ] PHILO  %3d  is sleeping\n", time, philo->index);
+	else if (x == 5)
+		printf("[ %9d ] PHILO  %3d  is thinking\n", time, philo->index);
+	pthread_mutex_unlock(&philo->mutex_two);
+}
+
+void	ft_routine__(t_node *philo)
+{
+	int	time;
+
+	time = 0;
+	pthread_mutex_lock(&philo->mutex);
+	time = get_time() - philo->_info->start;
+	printf("[ %9d ] PHILO  %3d  has taken a fork\n", time, philo->index);
+	pthread_mutex_lock(&philo->next->mutex);
+	time = get_time() - philo->_info->start;
+	printf("[ %9d ] PHILO  %3d  has taken a fork\n", time, philo->index);
+	ft_routine_(philo, 1);
+	smart_usleep(philo->_info->time_to_eat);
+	ft_routine_(philo, 2);
+	ft_routine_(philo, 3);
+	pthread_mutex_unlock(&philo->mutex);
+	pthread_mutex_unlock(&philo->next->mutex);
+	ft_routine_(philo, 4);
+	smart_usleep(philo->_info->time_to_sleep);
+	ft_routine_(philo, 5);
+}
 
 void	*ft_routine(void *arg)
 {
 	t_node			*philo;
 
 	philo = (t_node *)arg;
-	if(philo->index % 2 == 0)
+	if (philo->index % 2 == 0)
 		usleep(100);
 	while (1)
-	{
-		pthread_mutex_lock(&philo->mutex);
-		printf("[ %9d ] PHILO %d has taken a fork\n",get_time() - philo->_info->start ,philo->index);
-		// if(philo->_info->number_of_philosophers > 1)
-		pthread_mutex_lock(&philo->next->mutex);
-		printf("[ %9d ] PHILO %d has taken a fork\n",get_time() - philo->_info->start,philo->index);
-		
-		pthread_mutex_lock(&philo->mutex_two);
-		philo->last_time_eat = get_time() - philo->_info->start;
-		pthread_mutex_unlock(&philo->mutex_two);
-		
-		pthread_mutex_lock(&philo->mutex_two);
-		printf("[ %9d ] PHILO %d is eating\n",get_time() - philo->_info->start,philo->index);
-		pthread_mutex_unlock(&philo->mutex_two);
-		
-		smart_usleep(philo->_info->time_to_eat);
-		
-		pthread_mutex_lock(&philo->mutex_two);
-		if(philo->_info->optional_argument)
-			philo->number_of_eat++;
-		pthread_mutex_unlock(&philo->mutex_two);
-		
-		pthread_mutex_unlock(&philo->mutex);
-		pthread_mutex_unlock(&philo->next->mutex);
-		
-		pthread_mutex_lock(&philo->mutex_two);
-		printf("[ %9d ] PHILO %d is sleeping\n",get_time() - philo->_info->start,philo->index);
-		pthread_mutex_unlock(&philo->mutex_two);
-		
-		smart_usleep(philo->_info->time_to_sleep);
-		
-		pthread_mutex_lock(&philo->mutex_two);
-		printf("[ %9d ] PHILO %d is thinking\n",get_time() - philo->_info->start,philo->index);
-		pthread_mutex_unlock(&philo->mutex_two);
-	}
+		ft_routine__(philo);
 	return (NULL);
 }
 
-void destroy_forks(t_info *_info,t_node *philo)
+void	create_fork_and_philo(t_info *_info, t_node *philo)
 {
-	int i;
-	
+	int		i;
+
 	i = 0;
-	while(i < _info->number_of_philosophers)
+	while (i < _info->number_of_philosophers)
 	{
-		pthread_mutex_destroy(&philo->mutex);
-		pthread_mutex_destroy(&philo->mutex_two);
+		pthread_mutex_init(&philo->mutex, NULL);
+		pthread_mutex_init(&philo->mutex_two, NULL);
 		philo = philo->next;
 		i++;
 	}
-}
-
-int check_death_optional_argumant(t_node *philo,t_info *_info)
-{
-	int	done;
-	int	i;
-	
-	done = 0;
 	i = 0;
-	if(philo->_info->optional_argument)
+	while (i < _info->number_of_philosophers)
 	{
-		while(i < _info->number_of_philosophers)
-		{
-			pthread_mutex_lock(&philo->mutex_two);
-			if(philo->number_of_eat >= _info->number_of_eat)
-				done++;
-			philo = philo->next;
-			i++;
-			pthread_mutex_unlock(&philo->mutex_two);
-		}
-		if(done == _info->number_of_philosophers)
-			return (0);
-	}
-	return 1;
-}
-
-int check_death_time_to_die(t_node *philo,t_info *_info)
-{
-	int	i;
-	int time;
-	
-	i = 0;
-	time = get_time() - philo->_info->start;
-	while(i < _info->number_of_philosophers)
-	{
-		pthread_mutex_lock(&philo->mutex_two);
-		if(time - philo->last_time_eat > philo->_info->time_to_die )
-		{
-			printf("[ %9d ] PHILO %d died\n",get_time() - philo->_info->start,philo->index);
-			return (0);
-		}
+		pthread_create(&philo->thread, NULL, ft_routine, philo);
+		pthread_detach(philo->thread);
 		philo = philo->next;
 		i++;
-		pthread_mutex_unlock(&philo->mutex_two);
-	}
-	return 1;
-}
-
-int check_philo_death(t_node *philo,t_info *_info)
-{
-	while (1) {
-		if(!check_death_optional_argumant(philo, _info))
-			return (0);
-		if(!check_death_time_to_die(philo, _info))
-			return (0);
 	}
 }
 
 int	main(int argc, char **argv)
 {
-	t_info *_info;
-	t_node *philo;
-	int i ;
-	
+	t_info	*_info;
+	t_node	*philo;
 
 	if (argc == 5 || argc == 6)
 	{
 		_info = feild_info(argc, argv);
-		print_info(_info);
+		if (_info->number_of_philosophers <= 0)
+			return (printf("Error: number of philo must be > 0 \n"), 0);
+		if (_info->number_of_philosophers > 200)
+			return (printf("Error: number of philo must be <= 200\n"), 0);
+		if (_info->time_to_die < 60)
+			return (printf("Error: time to die must be > 60\n"), 0);
+		if (_info->time_to_eat < 60)
+			return (printf("Error: time to eat must be > 60\n"), 0);
+		if (_info->time_to_sleep < 60)
+			return (printf("Error: time to sleep must be > 60\n"), 0);
+		if (_info->optional_argument && _info->number_of_eat <= 0)
+			return (printf("Error: number of eat must be > 0\n"), 0);
 		philo = ft_creat_philosopher_list(_info);
-		i= 0;
-		while(i < _info->number_of_philosophers)
-		{
-			pthread_mutex_init(&philo->mutex,NULL);
-			pthread_mutex_init(&philo->mutex_two,NULL);
-			philo = philo->next;
-			i++;
-		}
-		i = 0;
-		while(i < _info->number_of_philosophers)
-		{
-			pthread_create(&philo->thread, NULL, ft_routine, philo);
-			pthread_detach(philo->thread);
-			philo = philo->next;
-			i++;
-		}
-		if(!check_philo_death(philo,_info))
-			return 0;
+		create_fork_and_philo(_info, philo);
+		if (!check_philo_death(philo, _info))
+			return (ft_destroy_forks(_info, philo), 0);
 	}
-	else
-		return (1);
+	printf("Error: Wrong number of arguments\n");
+	return (0);
 }

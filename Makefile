@@ -1,7 +1,7 @@
 NAME = philo
 CC = cc
 CFLAGS = -Wall -Wextra -Werror #-g -pthread -fsanitize=thread 
-ARGS := 4 100 100 100 9
+ARGS := 5 800 200 200 7
 RM = rm -rf
 RED	=	$(shell tput -Txterm setaf 1)
 WHITE	=	$(shell tput -Txterm setaf 7)
@@ -20,6 +20,7 @@ BANER = "\n" \
 SRC = philo.c \
 	philo_utils.c \
 	philo_utils_.c \
+	philo_utils__.c \
 
 OBJ = $(SRC:.c=.o)
 
@@ -32,7 +33,6 @@ RES := 0
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@clear
 	@echo $(BANER)
 	@$(CC) $(CFLAGS) $(OBJ) -o $@
 	@echo "Generated executable : ( $(BLUE) $@ $(WHITE) )\n"
@@ -44,7 +44,6 @@ $(NAME): $(OBJ)
 		  "	[number_of_times_each_philosopher_must_eat] \n"
 
 %.o: %.c $(HEADER)
-	@clear
 	@$(CC) $(CFLAGS) -c $< -o $@
 	@$(eval NUM := $(shell echo $$(($(NUM) + 1))))
 	@$(eval RES := $(shell echo $$(($(NUM) * 100 / $(NUM_FILES)))))
@@ -66,7 +65,7 @@ fclean: clean
 
 re : fclean all
 
-ch :
+eat :
 	@./philo $(ARGS) | grep "is eating" | awk '{print "[ " $$5 " ]"}' | sort -k2 -n| uniq -c 
 
-.PHONY : all clean fclean re
+.PHONY : all clean fclean re eat

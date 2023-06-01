@@ -6,17 +6,18 @@
 /*   By: ael-mouz <ael-mouz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:08:55 by ael-mouz          #+#    #+#             */
-/*   Updated: 2023/05/29 22:35:30 by ael-mouz         ###   ########.fr       */
+/*   Updated: 2023/06/01 22:37:48 by ael-mouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
+
 # include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
-#include <sys/time.h>
-#include <unistd.h>
+# include <sys/time.h>
+# include <unistd.h>
 
 typedef struct s_info
 {
@@ -41,14 +42,18 @@ typedef struct s_node
 	struct s_node	*next;
 }					t_node;
 
+/*--------------------PHILO_UTILS__---------------------------*/
+int		check_num_eat(t_node *philo, t_info *_info);
+int		check_death_time(t_node *philo, t_info *_info);
+int		check_philo_death(t_node *philo, t_info *_info);
+
 /*--------------------PHILO_UTILS_----------------------------*/
-int		get_time();
+int		get_time(void);
 void	smart_usleep(int timeto);
-void	print_linked_list(t_node *head,int num);
-void	print_info(t_info *_info);
+void	ft_destroy_forks(t_info *_info, t_node *philo);
 
 /*--------------------PHILO_UTILS-----------------------------*/
-int		ft_list_size(t_node *list);
+int		ft_atoi(char *str);
 void	ft_lst_add_back(t_node **head, t_node *new);
 t_node	*ft_lst_new(t_info *_info, int index);
 t_node	*ft_creat_philosopher_list(t_info *_info);
