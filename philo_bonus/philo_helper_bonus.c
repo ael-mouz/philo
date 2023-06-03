@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_utils_.c                                     :+:      :+:    :+:   */
+/*   philo_helper_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ael-mouz <ael-mouz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 19:11:00 by ael-mouz          #+#    #+#             */
-/*   Updated: 2023/06/01 22:47:28 by ael-mouz         ###   ########.fr       */
+/*   Updated: 2023/06/03 22:03:04 by ael-mouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 int	get_time(void)
 {
@@ -31,16 +31,26 @@ void	smart_usleep(int timeto)
 		usleep(400);
 }
 
-void	ft_destroy_forks(t_info *_info, t_node *philo)
+void	ft_create_semaphore(t_info *_info)
 {
-	int	i;
+	int	num;
 
-	i = 0;
-	while (i < _info->number_of_philosophers)
-	{
-		pthread_mutex_destroy(&philo->mutex);
-		pthread_mutex_destroy(&philo->mutex_two);
-		philo = philo->next;
-		i++;
-	}
+	num = _info->number_of_philosophers;
+	sem_unlink("/semaphore1");
+	sem_unlink("/semaphore2");
+	sem_unlink("/semaphore3");
+	_info->sem = sem_open("/semaphore1", O_CREAT | O_EXCL, 0644, num);
+	_info->sem_two = sem_open("/semaphore2", O_CREAT | O_EXCL, 0644, 1);
+	_info->sem_tree = sem_open("/semaphore3", O_CREAT | O_EXCL, 0644, 0);
+}
+
+void	ft_destroy_forks(t_info *_info)
+{
+	sem_close(_info->sem);
+	sem_close(_info->sem_two);
+	sem_close(_info->sem_tree);
+	sem_unlink("/semaphore1");
+	sem_unlink("/semaphore2");
+	sem_unlink("/semaphore3");
+	return ;
 }
