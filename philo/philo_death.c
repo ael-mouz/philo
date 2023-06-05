@@ -6,7 +6,7 @@
 /*   By: ael-mouz <ael-mouz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 20:56:05 by ael-mouz          #+#    #+#             */
-/*   Updated: 2023/06/04 15:52:44 by ael-mouz         ###   ########.fr       */
+/*   Updated: 2023/06/05 18:13:56 by ael-mouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	check_death_time(t_node *philo, t_info *_info)
 		time = get_time() - philo->_info->start;
 		if (time - philo->last_time_eat > philo->_info->time_to_die)
 		{
-			printf("[ %9d ] PHILO  %3d  died\n", time, philo->index);
+			printf("%9d %3d  died\n", time, philo->index);
 			pthread_mutex_unlock(&philo->mutex_two);
 			return (0);
 		}

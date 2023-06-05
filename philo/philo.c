@@ -6,7 +6,7 @@
 /*   By: ael-mouz <ael-mouz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:07:57 by ael-mouz          #+#    #+#             */
-/*   Updated: 2023/06/03 21:14:30 by ael-mouz         ###   ########.fr       */
+/*   Updated: 2023/06/05 18:13:46 by ael-mouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ void	ft_routine_(t_node	*philo, int x)
 			philo->number_of_eat++;
 	}
 	else if (x == 3)
-		printf("[ %9d ] PHILO  %3d  is eating\n", time, philo->index);
+		printf("%9d %3d  is eating\n", time, philo->index);
 	else if (x == 4)
-		printf("[ %9d ] PHILO  %3d  is sleeping\n", time, philo->index);
+		printf("%9d %3d  is sleeping\n", time, philo->index);
 	else if (x == 5)
-		printf("[ %9d ] PHILO  %3d  is thinking\n", time, philo->index);
+		printf("%9d %3d  is thinking\n", time, philo->index);
 	pthread_mutex_unlock(&philo->mutex_two);
 }
 
@@ -42,10 +42,10 @@ void	ft_routine__(t_node *philo)
 	time = 0;
 	pthread_mutex_lock(&philo->mutex);
 	time = get_time() - philo->_info->start;
-	printf("[ %9d ] PHILO  %3d  has taken a fork\n", time, philo->index);
+	printf("%9d %3d  has taken a fork\n", time, philo->index);
 	pthread_mutex_lock(&philo->next->mutex);
 	time = get_time() - philo->_info->start;
-	printf("[ %9d ] PHILO  %3d  has taken a fork\n", time, philo->index);
+	printf("%9d %3d  has taken a fork\n", time, philo->index);
 	ft_routine_(philo, 1);
 	ft_routine_(philo, 3);
 	smart_usleep(philo->_info->time_to_eat);

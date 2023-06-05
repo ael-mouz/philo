@@ -34,15 +34,10 @@ RES			:=	0
 all : $(NAME)
 
 $(NAME) : $(OBJ)
+	@clear
 	@echo $(BANER)
 	@$(CC) $(CFLAGS) $(OBJ) -o $@
 	@echo "Generated executable : ( $(BLUE) $@ $(WHITE) )\n"
-	@echo "Usage : $(GREEN)./$(NAME) $(WHITE) \n"\
-		  "	number_of_philosophers \n"\
-		  "	time_to_die \n"\
-		  "	time_to_eat \n"\
-		  "	time_to_sleep \n"\
-		  "	[number_of_times_each_philosopher_must_eat] \n"
 
 %.o : %.c $(HEADER)
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -69,6 +64,6 @@ re : fclean all
 ARGS	:=	5 800 200 200 7
 
 eat :
-	@./philo $(ARGS) | grep "is eating" | awk '{print "[ " $$5 " ]"}' | sort -k2 -n| uniq -c 
+	@./philo $(ARGS) | grep "is eating" | awk '{print "[ " $$2 " ]"}' | sort -k2 -n| uniq -c 
 
 .PHONY : all clean fclean re eat

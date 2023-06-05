@@ -6,7 +6,7 @@
 /*   By: ael-mouz <ael-mouz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:07:57 by ael-mouz          #+#    #+#             */
-/*   Updated: 2023/06/03 22:02:50 by ael-mouz         ###   ########.fr       */
+/*   Updated: 2023/06/05 19:25:15 by ael-mouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ void	ft_routine_(t_node	*philo, int x)
 			philo->number_of_eat++;
 	}
 	else if (x == 3)
-		printf("[ %9d ] PHILO  %3d  is eating\n", time, philo->index);
+		printf("%9d %3d  is eating\n", time, philo->index);
 	else if (x == 4)
-		printf("[ %9d ] PHILO  %3d  is sleeping\n", time, philo->index);
+		printf("%9d %3d  is sleeping\n", time, philo->index);
 	else if (x == 5)
-		printf("[ %9d ] PHILO  %3d  is thinking\n", time, philo->index);
+		printf("%9d %3d  is thinking\n", time, philo->index);
 	sem_post(philo->_info->sem_two);
 }
 
@@ -42,10 +42,10 @@ void	ft_routine__(t_node *philo)
 	time = 0;
 	sem_wait(philo->_info->sem);
 	time = get_time() - philo->_info->start;
-	printf("[ %9d ] PHILO  %3d  has taken a fork\n", time, philo->index);
+	printf("%9d %3d  has taken a fork\n", time, philo->index);
 	sem_wait(philo->_info->sem);
 	time = get_time() - philo->_info->start;
-	printf("[ %9d ] PHILO  %3d  has taken a fork\n", time, philo->index);
+	printf("%9d %3d  has taken a fork\n", time, philo->index);
 	ft_routine_(philo, 1);
 	ft_routine_(philo, 3);
 	smart_usleep(philo->_info->time_to_eat);
@@ -60,23 +60,12 @@ void	ft_routine__(t_node *philo)
 void	ft_checker( t_info *_info, t_node *philo)
 {
 	int	status;
-	int	i;
 
 	status = 0;
 	pthread_create(&_info->thread, NULL, ft_routine_eat, philo);
 	pthread_detach(_info->thread);
-	waitpid(-1, &status, 0);
-	if (WIFEXITED(status) == 0)
-	{
-		i = 0;
-		while (i < _info->number_of_philosophers)
-		{
-			kill(philo->pid, SIGINT);
-			philo = philo->next;
-			i++;
-		}
-		return ;
-	}
+	waitpid(0, NULL, 0);
+	kill(0, SIGINT);
 }
 
 void	create_fork_and_philo(t_info *_info, t_node *philo)

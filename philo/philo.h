@@ -6,7 +6,7 @@
 /*   By: ael-mouz <ael-mouz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:08:55 by ael-mouz          #+#    #+#             */
-/*   Updated: 2023/06/01 22:37:48 by ael-mouz         ###   ########.fr       */
+/*   Updated: 2023/06/05 20:28:53 by ael-mouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int		check_philo_death(t_node *philo, t_info *_info);
 
 /*--------------------PHILO_UTILS_----------------------------*/
 int		get_time(void);
+int		ft_is_digit(char *str);
 void	smart_usleep(int timeto);
 void	ft_destroy_forks(t_info *_info, t_node *philo);
 

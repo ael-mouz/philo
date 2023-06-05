@@ -6,7 +6,7 @@
 /*   By: ael-mouz <ael-mouz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:37:01 by ael-mouz          #+#    #+#             */
-/*   Updated: 2023/06/03 22:03:07 by ael-mouz         ###   ########.fr       */
+/*   Updated: 2023/06/05 20:29:49 by ael-mouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,12 @@ t_info	*feild_info(int argc, char **argv)
 {
 	t_info	*_info;
 
+	if (!ft_is_digit(argv[1]) || !ft_is_digit(argv[2]) || !ft_is_digit(argv[3])
+		|| !ft_is_digit(argv[4]) || (argc == 6 && !ft_is_digit(argv[5])))
+	{
+		printf("Error: arguments must be numbers\n");
+		exit(1);
+	}
 	_info = (t_info *)malloc(sizeof(t_info) * 1);
 	_info->number_of_philosophers = ft_atoi(argv[1]);
 	_info->time_to_die = ft_atoi(argv[2]);
