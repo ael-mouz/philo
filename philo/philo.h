@@ -6,7 +6,7 @@
 /*   By: ael-mouz <ael-mouz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:08:55 by ael-mouz          #+#    #+#             */
-/*   Updated: 2023/07/10 21:57:36 by ael-mouz         ###   ########.fr       */
+/*   Updated: 2023/07/11 00:14:44 by ael-mouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,18 @@ typedef struct s_node
 	struct s_node	*next;
 }					t_node;
 
-/*--------------------PHILO_UTILS__---------------------------*/
+/*--------------------PHILO_DEATH---------------------------*/
 int		check_num_eat(t_node *philo, t_info *_info);
 int		check_death_time(t_node *philo, t_info *_info);
 int		check_philo_death(t_node *philo, t_info *_info);
+int		ft_check_args(t_info *_info);
 
-/*--------------------PHILO_UTILS_----------------------------*/
+/*--------------------PHILO_HELPER----------------------------*/
 int		get_time(void);
+int		ft_is_whitespace(char c);
 int		ft_is_digit(char *str);
 void	smart_usleep(int timeto);
 void	ft_destroy_forks(t_info *_info, t_node *philo);
-int		ft_check_args(t_info *_info);
 
 /*--------------------PHILO_UTILS-----------------------------*/
 int		ft_atoi(char *str);
@@ -62,5 +63,9 @@ t_node	*ft_creat_philosopher_list(t_info *_info);
 t_info	*feild_info(int argc, char **argv);
 
 /*--------------------PHILO-----------------------------------*/
+void	ft_routine_(t_node	*philo, int x);
+void	ft_routine__(t_node *philo);
+void	*ft_routine(void *arg);
+void	create_fork_and_philo(t_info *_info, t_node *philo);
 
 #endif
