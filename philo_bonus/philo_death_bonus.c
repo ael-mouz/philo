@@ -6,7 +6,7 @@
 /*   By: ael-mouz <ael-mouz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 20:56:05 by ael-mouz          #+#    #+#             */
-/*   Updated: 2023/06/05 19:28:20 by ael-mouz         ###   ########.fr       */
+/*   Updated: 2023/07/10 23:23:35 by ael-mouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,19 @@ void	*ft_routine_eat(void *arg)
 		}
 	}
 	return (NULL);
+}
+
+int	ft_check_args(t_info *_info)
+{
+	if (_info->number_of_philosophers <= 0)
+		return (printf("Error: number of philo must be > 0 \n"), 0);
+	if (_info->time_to_die <= 0)
+		return (printf("Error: time to die must be > 0\n"), 0);
+	if (_info->time_to_eat <= 0)
+		return (printf("Error: time to eat must be > 0\n"), 0);
+	if (_info->time_to_sleep <= 0)
+		return (printf("Error: time to sleep must be > 0\n"), 0);
+	if (_info->optional_argument && _info->number_of_eat <= 0)
+		return (printf("Error: number of eat must be > 0\n"), 0);
+	return (1);
 }

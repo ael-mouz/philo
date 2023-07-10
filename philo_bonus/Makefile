@@ -20,6 +20,7 @@ BANER	=	"\n" \
 
 SRC		=	philo_bonus.c \
 			philo_death_bonus.c \
+			philo_helper__bonus.c \
 			philo_helper_bonus.c \
 			philo_utils_bonus.c \
 

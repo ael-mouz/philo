@@ -6,7 +6,7 @@
 /*   By: ael-mouz <ael-mouz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:07:57 by ael-mouz          #+#    #+#             */
-/*   Updated: 2023/06/05 18:13:46 by ael-mouz         ###   ########.fr       */
+/*   Updated: 2023/07/10 23:58:47 by ael-mouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,19 +99,11 @@ int	main(int argc, char **argv)
 	if (argc == 5 || argc == 6)
 	{
 		_info = feild_info(argc, argv);
-		if (_info->number_of_philosophers <= 0)
-			return (printf("Error: number of philo must be > 0 \n"), 0);
-		if (_info->number_of_philosophers > 200)
-			return (printf("Error: number of philo must be <= 200\n"), 0);
-		if (_info->time_to_die < 60)
-			return (printf("Error: time to die must be > 60\n"), 0);
-		if (_info->time_to_eat < 60)
-			return (printf("Error: time to eat must be > 60\n"), 0);
-		if (_info->time_to_sleep < 60)
-			return (printf("Error: time to sleep must be > 60\n"), 0);
-		if (_info->optional_argument && _info->number_of_eat <= 0)
-			return (printf("Error: number of eat must be > 0\n"), 0);
+		if (!_info || !ft_check_args(_info))
+			return (0);
 		philo = ft_creat_philosopher_list(_info);
+		if (!philo)
+			return (0);
 		create_fork_and_philo(_info, philo);
 		if (!check_philo_death(philo, _info))
 			return (ft_destroy_forks(_info, philo), 0);
