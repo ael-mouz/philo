@@ -6,7 +6,7 @@
 /*   By: ael-mouz <ael-mouz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:37:01 by ael-mouz          #+#    #+#             */
-/*   Updated: 2023/06/05 20:29:49 by ael-mouz         ###   ########.fr       */
+/*   Updated: 2023/07/19 09:45:09 by ael-mouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ t_node	*ft_lst_new(t_info *_info, int index)
 	t_node	*new_node;
 
 	new_node = malloc(sizeof(t_node));
+	if (!new_node)
+		return (NULL);
 	new_node->index = index;
 	new_node->last_time_eat = 0;
 	new_node->number_of_eat = 0;
@@ -89,23 +91,22 @@ t_info	*feild_info(int argc, char **argv)
 		|| !ft_is_digit(argv[4]) || (argc == 6 && !ft_is_digit(argv[5])))
 	{
 		printf("Error: arguments must be numbers\n");
-		exit(1);
+		return (NULL);
 	}
 	_info = (t_info *)malloc(sizeof(t_info) * 1);
+	if (!_info)
+		return (NULL);
 	_info->number_of_philosophers = ft_atoi(argv[1]);
 	_info->time_to_die = ft_atoi(argv[2]);
 	_info->time_to_eat = ft_atoi(argv[3]);
 	_info->time_to_sleep = ft_atoi(argv[4]);
 	_info->start = get_time();
+	_info->number_of_eat = 0;
+	_info->optional_argument = 0;
 	if (argc == 6)
 	{
 		_info->number_of_eat = ft_atoi(argv[5]);
 		_info->optional_argument = 1;
-	}
-	else
-	{
-		_info->number_of_eat = 0;
-		_info->optional_argument = 0;
 	}
 	return (_info);
 }

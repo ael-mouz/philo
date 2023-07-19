@@ -6,7 +6,7 @@
 /*   By: ael-mouz <ael-mouz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 19:07:57 by ael-mouz          #+#    #+#             */
-/*   Updated: 2023/07/10 23:57:34 by ael-mouz         ###   ########.fr       */
+/*   Updated: 2023/07/19 09:48:25 by ael-mouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	create_fork_and_philo(t_info *_info, t_node *philo)
 		}
 		else if (philo->pid < 0)
 		{
-			perror("Error: fork failed\n");
+			printf("Error: fork failed\n");
 			return ;
 		}
 		philo = philo->next;
@@ -104,11 +104,13 @@ int	main(int argc, char **argv)
 	if (argc == 5 || argc == 6)
 	{
 		_info = feild_info(argc, argv);
-		if (!_info || !ft_check_args(_info))
-			return (0);
+		if (!_info)
+			return (free(_info), 0);
+		if (!ft_check_args(_info))
+			return (free(_info), 0);
 		philo = ft_creat_philosopher_list(_info);
 		if (!philo)
-			return (0);
+			return (free(_info), 0);
 		create_fork_and_philo(_info, philo);
 		return (ft_destroy_forks(_info), 0);
 	}

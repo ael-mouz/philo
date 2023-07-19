@@ -6,7 +6,7 @@
 /*   By: ael-mouz <ael-mouz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 19:11:00 by ael-mouz          #+#    #+#             */
-/*   Updated: 2023/07/10 21:58:51 by ael-mouz         ###   ########.fr       */
+/*   Updated: 2023/07/19 09:01:59 by ael-mouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,6 @@ void	smart_usleep(int timeto)
 	time = get_time();
 	while (get_time() - time < timeto)
 		usleep(400);
-}
-
-void	ft_destroy_forks(t_info *_info, t_node *philo)
-{
-	int	i;
-
-	i = 0;
-	while (i < _info->number_of_philosophers)
-	{
-		pthread_mutex_destroy(&philo->mutex);
-		pthread_mutex_destroy(&philo->mutex_two);
-		philo = philo->next;
-		i++;
-	}
 }
 
 int	ft_is_whitespace(char c)
